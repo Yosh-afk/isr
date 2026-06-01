@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Calculadora ISR 2026</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="app-shell">
+    <section class="calculator" aria-labelledby="app-title">
+      <div class="intro">
+        <p class="eyebrow">Mexico · Sueldos y salarios · 2026</p>
+        <h1 id="app-title">Calculadora ISR</h1>
+        <p>Estima la retencion de ISR para sueldo mensual o quincenal con tarifas 2026.</p>
+      </div>
+
+      <form id="isr-form" class="panel">
+        <label class="field">
+          <span>Sueldo bruto</span>
+          <div class="money-input">
+            <span>$</span>
+            <input id="salary" name="salary" type="number" inputmode="decimal" min="0" step="0.01" value="0" required>
+          </div>
+        </label>
+
+        <fieldset class="field">
+          <legend>Periodo de pago</legend>
+          <div class="segmented">
+            <label>
+              <input type="radio" name="period" value="monthly" checked>
+              <span>Mensual</span>
+            </label>
+            <label>
+              <input type="radio" name="period" value="biweekly">
+              <span>Quincenal</span>
+            </label>
+          </div>
+        </fieldset>
+
+        <label class="check-row">
+          <input id="apply-subsidy" type="checkbox" checked>
+          <span>Aplicar subsidio para el empleo cuando corresponda</span>
+        </label>
+      </form>
+
+      <section class="results" aria-live="polite">
+        <article class="metric primary">
+          <span>ISR retenido estimado</span>
+          <strong id="tax-result">$0.00</strong>
+        </article>
+        <article class="metric">
+          <span>Sueldo neto estimado</span>
+          <strong id="net-result">$0.00</strong>
+        </article>
+        <article class="metric">
+          <span>Subsidio aplicado</span>
+          <strong id="subsidy-result">$0.00</strong>
+        </article>
+      </section>
+
+      <section class="detail-panel">
+        <h2>Desglose</h2>
+        <dl>
+          <div>
+            <dt>Limite inferior</dt>
+            <dd id="lower-limit">$0.00</dd>
+          </div>
+          <div>
+            <dt>Excedente</dt>
+            <dd id="excess">$0.00</dd>
+          </div>
+          <div>
+            <dt>Cuota fija</dt>
+            <dd id="fixed-fee">$0.00</dd>
+          </div>
+          <div>
+            <dt>Tasa marginal</dt>
+            <dd id="rate">0%</dd>
+          </div>
+          <div>
+            <dt>ISR antes de subsidio</dt>
+            <dd id="tax-before-subsidy">$0.00</dd>
+          </div>
+        </dl>
+      </section>
+
+      <p class="notice">
+        Calculo informativo basado en tarifas ISR 2026 del Anexo 8 de la RMF y subsidio para el empleo vigente.
+        No sustituye asesoria fiscal, calculo de nomina ni validacion con el SAT.
+      </p>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

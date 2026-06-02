@@ -1,75 +1,218 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Calculadora de Nómina México</title>
 
-<link rel="stylesheet" href="styles.css">
+<title>Calculadora ISR México Pro</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="style.css">
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 </head>
+
 <body>
 
-<div class="contenedor">
+<div class="background"></div>
 
-    <h1>Calculadora de Nómina</h1>
+<div class="container">
 
-    <div class="card">
+    <div class="glass-card">
 
-        <label>Sueldo Bruto</label>
-        <input
-            type="number"
-            id="sueldo"
-            placeholder="Ej. 15000"
+        <div class="header">
+
+            <div>
+                <h1>Calculadora ISR México</h1>
+                <p>Sistema Fiscal Profesional</p>
+            </div>
+
+            <button id="themeBtn">
+                🌙
+            </button>
+
+        </div>
+
+        <div class="form-section">
+
+            <div class="input-group">
+
+                <label>
+                    Sueldo Bruto
+                </label>
+
+                <input
+                    type="number"
+                    id="sueldo"
+                    placeholder="Ej. 15000"
+                >
+
+            </div>
+
+            <div class="input-group">
+
+                <label>
+                    Periodicidad
+                </label>
+
+                <select id="periodo">
+
+                    <option value="mensual">
+                        Mensual
+                    </option>
+
+                    <option value="quincenal">
+                        Quincenal
+                    </option>
+
+                    <option value="semanal">
+                        Semanal
+                    </option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+        <button
+            class="calculate-btn"
+            onclick="calcularISR()"
         >
-
-        <label>Periodicidad</label>
-
-        <select id="periodo">
-            <option value="semanal">Semanal</option>
-            <option value="quincenal">Quincenal</option>
-            <option value="mensual">Mensual</option>
-        </select>
-
-        <button onclick="calcularNomina()">
-            Calcular Nómina
+            Calcular ISR
         </button>
 
-    </div>
+        <div class="cards">
 
-    <div class="resultado">
+            <div class="card bruto">
 
-        <h2>Resultado</h2>
+                <span>
+                    Sueldo Bruto
+                </span>
 
-        <div class="fila">
-            <span>Sueldo Bruto</span>
-            <span id="bruto">$0.00</span>
+                <h2 id="bruto">
+                    $0.00
+                </h2>
+
+            </div>
+
+            <div class="card impuesto">
+
+                <span>
+                    ISR
+                </span>
+
+                <h2 id="isr">
+                    $0.00
+                </h2>
+
+            </div>
+
+            <div class="card neto">
+
+                <span>
+                    Neto
+                </span>
+
+                <h2 id="neto">
+                    $0.00
+                </h2>
+
+            </div>
+
         </div>
 
-        <div class="fila">
-            <span>ISR</span>
-            <span id="isr">$0.00</span>
+        <div class="chart-container">
+
+            <canvas id="grafica"></canvas>
+
         </div>
 
-        <div class="fila">
-            <span>IMSS</span>
-            <span id="imss">$0.00</span>
+        <div class="details">
+
+            <h3>
+                Resumen Fiscal
+            </h3>
+
+            <div class="detail-row">
+
+                <span>
+                    ISR Retenido
+                </span>
+
+                <strong id="detalleISR">
+                    $0.00
+                </strong>
+
+            </div>
+
+            <div class="detail-row">
+
+                <span>
+                    Tasa Efectiva
+                </span>
+
+                <strong id="tasa">
+                    0%
+                </strong>
+
+            </div>
+
+            <div class="detail-row">
+
+                <span>
+                    Ingreso Anual
+                </span>
+
+                <strong id="anual">
+                    $0.00
+                </strong>
+
+            </div>
+
+            <div class="detail-row">
+
+                <span>
+                    ISR Anual
+                </span>
+
+                <strong id="isrAnual">
+                    $0.00
+                </strong>
+
+            </div>
+
         </div>
 
-        <div class="fila">
-            <span>Total Impuestos</span>
-            <span id="impuestos">$0.00</span>
-        </div>
+        <div class="actions">
 
-        <div class="fila neto">
-            <span>Sueldo Neto</span>
-            <span id="neto">$0.00</span>
+            <button onclick="window.print()">
+                🖨️ Imprimir
+            </button>
+
+            <button id="pdfBtn">
+                📄 Descargar PDF
+            </button>
+
+            <button onclick="limpiarFormulario()">
+                ♻️ Limpiar
+            </button>
+
         </div>
 
     </div>
 
 </div>
 
-<script src="app.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<script src="script.js"></script>
 
 </body>
 </html>

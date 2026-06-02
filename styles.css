@@ -1,200 +1,297 @@
 /* ===========================
-NÓMINA
+   CHECKBOX SUBSIDIO
+=========================== */
+
+.check-row{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  cursor:pointer;
+  user-select:none;
+}
+
+.check-row input{
+  width:18px;
+  height:18px;
+  accent-color:var(--accent);
+}
+
+.check-row span{
+  font-weight:600;
+}
+
+/* ===========================
+   PANEL NÓMINA
 =========================== */
 
 .payroll-panel{
-grid-column:1 / -1;
+  grid-column:1 / -1;
 
-background:var(--surface);
-border:1px solid var(--line);
-border-radius:var(--radius);
-box-shadow:var(--shadow);
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
 
-padding:24px;
+  box-shadow:var(--shadow);
 
-animation:reveal .7s ease;
+  padding:24px;
+
+  animation:reveal .7s ease;
 }
 
 .payroll-header{
-display:flex;
-justify-content:space-between;
-align-items:center;
-gap:16px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
 
-margin-bottom:20px;
+  gap:16px;
+  margin-bottom:24px;
+}
+
+.payroll-header h2{
+  margin:0;
 }
 
 .payroll-actions{
-display:flex;
-gap:10px;
-flex-wrap:wrap;
+  display:flex;
+  gap:10px;
 }
+
+/* ===========================
+   BOTONES
+=========================== */
 
 .btn-primary,
 .btn-secondary{
-border:none;
-border-radius:10px;
-min-height:48px;
+  border:none;
+  border-radius:10px;
 
-padding:0 18px;
+  min-height:48px;
+  padding:0 18px;
 
-cursor:pointer;
-font-weight:700;
+  font-weight:700;
+  cursor:pointer;
 
-transition:.25s;
+  transition:.25s;
 }
 
 .btn-primary{
-background:var(--accent);
-color:white;
+  background:var(--accent);
+  color:white;
 }
 
 .btn-primary:hover{
-transform:translateY(-2px);
-background:var(--accent-dark);
+  background:var(--accent-dark);
+  transform:translateY(-2px);
 }
 
 .btn-secondary{
-background:var(--gold);
-color:white;
+  background:var(--gold);
+  color:white;
 }
 
 .btn-secondary:hover{
-transform:translateY(-2px);
-opacity:.9;
+  transform:translateY(-2px);
+  opacity:.92;
 }
 
+/* ===========================
+   TARJETA NÓMINA
+=========================== */
+
 .payroll-card{
-border:1px solid var(--line);
-border-radius:12px;
+  border:1px solid var(--line);
+  border-radius:12px;
 
-background:
-linear-gradient(
-135deg,
-rgba(15,118,110,.04),
-rgba(183,121,31,.04)
-);
+  background:
+    linear-gradient(
+      135deg,
+      rgba(15,118,110,.04),
+      rgba(183,121,31,.05)
+    );
 
-padding:24px;
+  padding:24px;
 }
 
 .company-info{
-text-align:center;
-margin-bottom:24px;
+  text-align:center;
+  margin-bottom:26px;
 }
 
 .company-info h3{
-margin:0;
-font-size:1.6rem;
+  margin:0;
+  font-size:1.7rem;
 }
 
 .company-info p{
-margin-top:8px;
-color:var(--muted);
+  margin-top:8px;
+  color:var(--muted);
 }
 
-.payroll-grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
-gap:14px;
+/* ===========================
+   GRID NÓMINA
+=========================== */
 
-margin-bottom:24px;
+.payroll-grid{
+  display:grid;
+  grid-template-columns:
+    repeat(auto-fit,minmax(180px,1fr));
+
+  gap:14px;
+
+  margin-bottom:26px;
 }
 
 .payroll-grid div{
-background:white;
-border:1px solid var(--line);
-border-radius:10px;
+  background:white;
 
-padding:14px;
+  border:1px solid var(--line);
+  border-radius:10px;
+
+  padding:14px;
+
+  transition:.25s;
+}
+
+.payroll-grid div:hover{
+  transform:translateY(-3px);
 }
 
 .payroll-grid span{
-display:block;
-color:var(--muted);
-font-size:.85rem;
-margin-bottom:6px;
+  display:block;
+
+  color:var(--muted);
+  font-size:.85rem;
+
+  margin-bottom:6px;
 }
 
 .payroll-grid strong{
-font-size:1.1rem;
+  font-size:1.1rem;
 }
 
+/* ===========================
+   RESUMEN NÓMINA
+=========================== */
+
 .payroll-summary{
-border-top:1px solid var(--line);
-padding-top:20px;
+  border-top:1px solid var(--line);
+
+  padding-top:20px;
 }
 
 .summary-row{
-display:flex;
-justify-content:space-between;
-align-items:center;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
 
-padding:10px 0;
+  padding:10px 0;
+}
+
+.summary-row strong{
+  font-weight:800;
 }
 
 .summary-row.total{
-margin-top:8px;
-padding-top:14px;
+  margin-top:10px;
 
-border-top:1px solid var(--line);
+  border-top:1px solid var(--line);
 
-font-size:1.2rem;
-font-weight:800;
+  padding-top:16px;
+
+  font-size:1.2rem;
 }
 
-.info-panel{
-grid-column:1 / -1;
+/* ===========================
+   INFO IMPUESTOS
+=========================== */
 
-background:var(--surface);
-border:1px solid var(--line);
-border-radius:var(--radius);
-
-padding:24px;
-
-box-shadow:var(--shadow);
+.detail-panel dl div{
+  transition:.25s;
 }
 
-.info-grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-gap:16px;
+.detail-panel dl div:hover{
+  transform:translateY(-2px);
 }
 
-.info-grid article{
-background:var(--soft);
-border-radius:10px;
-padding:16px;
+.detail-panel dd{
+  line-height:1.4;
 }
 
-.info-grid h3{
-margin-top:0;
-}
+/* ===========================
+   AVISO LEGAL
+=========================== */
 
 .notice{
-grid-column:1 / -1;
+  grid-column:1 / -1;
 
-padding:18px;
-text-align:center;
+  margin:0;
 
-color:var(--muted);
-font-size:.9rem;
+  padding:18px;
+
+  text-align:center;
+
+  color:var(--muted);
+
+  border:1px dashed var(--line);
+  border-radius:12px;
+
+  background:rgba(15,118,110,.03);
 }
+
+/* ===========================
+   IMPRESIÓN
+=========================== */
+
+@media print{
+
+  body{
+    background:white;
+  }
+
+  .intro,
+  .panel,
+  .notice,
+  .payroll-actions{
+    display:none;
+  }
+
+  .payroll-panel{
+    box-shadow:none;
+    border:none;
+  }
+
+  .payroll-card{
+    border:1px solid #000;
+  }
+
+}
+
+/* ===========================
+   RESPONSIVE EXTRA
+=========================== */
 
 @media(max-width:760px){
 
-.payroll-header{
-flex-direction:column;
-align-items:flex-start;
+  .payroll-header{
+    flex-direction:column;
+    align-items:flex-start;
+  }
+
+  .payroll-actions{
+    width:100%;
+  }
+
+  .btn-primary,
+  .btn-secondary{
+    flex:1;
+  }
+
 }
 
-.payroll-actions{
-width:100%;
-}
+@media(max-width:480px){
 
-.btn-primary,
-.btn-secondary{
-flex:1;
-}
+  .payroll-grid{
+    grid-template-columns:1fr;
+  }
 
 }

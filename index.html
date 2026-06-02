@@ -1,304 +1,297 @@
-<!DOCTYPE html>
-
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculadora ISR y Nómina 2026</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-
-<main class="app-shell">
+/* ===========================
+   CHECKBOX SUBSIDIO
+=========================== */
+
+.check-row{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  cursor:pointer;
+  user-select:none;
+}
+
+.check-row input{
+  width:18px;
+  height:18px;
+  accent-color:var(--accent);
+}
+
+.check-row span{
+  font-weight:600;
+}
+
+/* ===========================
+   PANEL NÓMINA
+=========================== */
+
+.payroll-panel{
+  grid-column:1 / -1;
+
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+
+  box-shadow:var(--shadow);
+
+  padding:24px;
+
+  animation:reveal .7s ease;
+}
+
+.payroll-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+
+  gap:16px;
+  margin-bottom:24px;
+}
+
+.payroll-header h2{
+  margin:0;
+}
+
+.payroll-actions{
+  display:flex;
+  gap:10px;
+}
+
+/* ===========================
+   BOTONES
+=========================== */
+
+.btn-primary,
+.btn-secondary{
+  border:none;
+  border-radius:10px;
+
+  min-height:48px;
+  padding:0 18px;
+
+  font-weight:700;
+  cursor:pointer;
 
-```
-<section class="calculator">
-
-    <div class="intro">
-        <p class="eyebrow">México · Nómina · ISR 2026</p>
-
-        <h1 id="app-title">
-            Calculadora ISR y Nómina
-        </h1>
+  transition:.25s;
+}
 
-        <p>
-            Calcula el ISR retenido y genera una nómina estimada
-            con los descuentos obligatorios más comunes para
-            trabajadores asalariados en México.
-        </p>
-    </div>
+.btn-primary{
+  background:var(--accent);
+  color:white;
+}
 
-    <!-- FORMULARIO -->
+.btn-primary:hover{
+  background:var(--accent-dark);
+  transform:translateY(-2px);
+}
+
+.btn-secondary{
+  background:var(--gold);
+  color:white;
+}
 
-    <form id="isr-form" class="panel">
+.btn-secondary:hover{
+  transform:translateY(-2px);
+  opacity:.92;
+}
 
-        <label class="field">
-            <span>Sueldo bruto</span>
+/* ===========================
+   TARJETA NÓMINA
+=========================== */
 
-            <div class="money-input">
-                <span>$</span>
+.payroll-card{
+  border:1px solid var(--line);
+  border-radius:12px;
 
-                <input
-                    id="salary"
-                    name="salary"
-                    type="number"
-                    inputmode="decimal"
-                    min="0"
-                    step="0.01"
-                    value="0"
-                    required
-                >
-            </div>
-        </label>
+  background:
+    linear-gradient(
+      135deg,
+      rgba(15,118,110,.04),
+      rgba(183,121,31,.05)
+    );
 
-        <fieldset class="field">
+  padding:24px;
+}
 
-            <legend>Periodo de pago</legend>
+.company-info{
+  text-align:center;
+  margin-bottom:26px;
+}
 
-            <div class="segmented">
+.company-info h3{
+  margin:0;
+  font-size:1.7rem;
+}
 
-                <label>
-                    <input
-                        type="radio"
-                        name="period"
-                        value="monthly"
-                        checked
-                    >
-                    <span>Mensual</span>
-                </label>
+.company-info p{
+  margin-top:8px;
+  color:var(--muted);
+}
 
-                <label>
-                    <input
-                        type="radio"
-                        name="period"
-                        value="biweekly"
-                    >
-                    <span>Quincenal</span>
-                </label>
+/* ===========================
+   GRID NÓMINA
+=========================== */
 
-            </div>
+.payroll-grid{
+  display:grid;
+  grid-template-columns:
+    repeat(auto-fit,minmax(180px,1fr));
 
-        </fieldset>
+  gap:14px;
 
-        <label class="check-row">
+  margin-bottom:26px;
+}
 
-            <input
-                id="apply-subsidy"
-                type="checkbox"
-                checked
-            >
+.payroll-grid div{
+  background:white;
 
-            <span>
-                Aplicar subsidio al empleo
-            </span>
+  border:1px solid var(--line);
+  border-radius:10px;
 
-        </label>
+  padding:14px;
 
-    </form>
+  transition:.25s;
+}
 
-    <!-- RESULTADOS -->
+.payroll-grid div:hover{
+  transform:translateY(-3px);
+}
 
-    <section class="results">
+.payroll-grid span{
+  display:block;
 
-        <article class="metric primary">
-            <span>ISR retenido</span>
-            <strong id="tax-result">$0.00</strong>
-        </article>
+  color:var(--muted);
+  font-size:.85rem;
 
-        <article class="metric">
-            <span>Sueldo neto estimado</span>
-            <strong id="net-result">$0.00</strong>
-        </article>
+  margin-bottom:6px;
+}
 
-        <article class="metric">
-            <span>Subsidio aplicado</span>
-            <strong id="subsidy-result">$0.00</strong>
-        </article>
+.payroll-grid strong{
+  font-size:1.1rem;
+}
 
-    </section>
+/* ===========================
+   RESUMEN NÓMINA
+=========================== */
 
-    <!-- DESGLOSE ISR -->
+.payroll-summary{
+  border-top:1px solid var(--line);
 
-    <section class="detail-panel">
+  padding-top:20px;
+}
 
-        <h2>Desglose ISR</h2>
+.summary-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
 
-        <dl>
+  padding:10px 0;
+}
 
-            <div>
-                <dt>Límite inferior</dt>
-                <dd id="lower-limit">$0.00</dd>
-            </div>
+.summary-row strong{
+  font-weight:800;
+}
 
-            <div>
-                <dt>Excedente</dt>
-                <dd id="excess">$0.00</dd>
-            </div>
+.summary-row.total{
+  margin-top:10px;
 
-            <div>
-                <dt>Cuota fija</dt>
-                <dd id="fixed-fee">$0.00</dd>
-            </div>
+  border-top:1px solid var(--line);
 
-            <div>
-                <dt>Tasa marginal</dt>
-                <dd id="rate">0%</dd>
-            </div>
+  padding-top:16px;
 
-            <div>
-                <dt>ISR antes de subsidio</dt>
-                <dd id="tax-before-subsidy">$0.00</dd>
-            </div>
+  font-size:1.2rem;
+}
 
-        </dl>
+/* ===========================
+   INFO IMPUESTOS
+=========================== */
 
-    </section>
+.detail-panel dl div{
+  transition:.25s;
+}
 
-    <!-- NÓMINA -->
+.detail-panel dl div:hover{
+  transform:translateY(-2px);
+}
 
-    <section class="payroll-panel">
+.detail-panel dd{
+  line-height:1.4;
+}
 
-        <div class="payroll-header">
+/* ===========================
+   AVISO LEGAL
+=========================== */
 
-            <h2>Nómina Estimada</h2>
+.notice{
+  grid-column:1 / -1;
 
-            <div class="payroll-actions">
+  margin:0;
 
-                <button
-                    type="button"
-                    id="generate-payroll"
-                    class="btn-primary"
-                >
-                    Generar Nómina
-                </button>
+  padding:18px;
 
-                <button
-                    type="button"
-                    id="print-payroll"
-                    class="btn-secondary"
-                >
-                    Imprimir
-                </button>
+  text-align:center;
 
-            </div>
+  color:var(--muted);
 
-        </div>
+  border:1px dashed var(--line);
+  border-radius:12px;
 
-        <div class="payroll-card">
+  background:rgba(15,118,110,.03);
+}
 
-            <div class="company-info">
-                <h3>Recibo de Nómina</h3>
-                <p>Estimación Fiscal 2026</p>
-            </div>
+/* ===========================
+   IMPRESIÓN
+=========================== */
 
-            <div class="payroll-grid">
+@media print{
 
-                <div>
-                    <span>Fecha</span>
-                    <strong id="payroll-date">--/--/----</strong>
-                </div>
+  body{
+    background:white;
+  }
 
-                <div>
-                    <span>Periodo</span>
-                    <strong id="payroll-period">Mensual</strong>
-                </div>
+  .intro,
+  .panel,
+  .notice,
+  .payroll-actions{
+    display:none;
+  }
 
-                <div>
-                    <span>Sueldo Bruto</span>
-                    <strong id="payroll-gross">$0.00</strong>
-                </div>
+  .payroll-panel{
+    box-shadow:none;
+    border:none;
+  }
 
-                <div>
-                    <span>ISR Retenido</span>
-                    <strong id="payroll-tax">$0.00</strong>
-                </div>
+  .payroll-card{
+    border:1px solid #000;
+  }
 
-                <div>
-                    <span>Subsidio</span>
-                    <strong id="payroll-subsidy">$0.00</strong>
-                </div>
+}
 
-                <div>
-                    <span>Neto a Pagar</span>
-                    <strong id="payroll-net">$0.00</strong>
-                </div>
+/* ===========================
+   RESPONSIVE
+=========================== */
 
-            </div>
+@media(max-width:760px){
 
-            <div class="payroll-summary">
+  .payroll-header{
+    flex-direction:column;
+    align-items:flex-start;
+  }
 
-                <div class="summary-row">
-                    <span>Percepciones</span>
-                    <strong id="summary-income">$0.00</strong>
-                </div>
+  .payroll-actions{
+    width:100%;
+  }
 
-                <div class="summary-row">
-                    <span>ISR</span>
-                    <strong id="summary-deductions">$0.00</strong>
-                </div>
+  .btn-primary,
+  .btn-secondary{
+    flex:1;
+  }
 
-                <div class="summary-row total">
-                    <span>Total Neto</span>
-                    <strong id="summary-net">$0.00</strong>
-                </div>
+}
 
-            </div>
+@media(max-width:480px){
 
-        </div>
+  .payroll-grid{
+    grid-template-columns:1fr;
+  }
 
-    </section>
-
-    <!-- IMPUESTOS OBLIGATORIOS -->
-
-    <section class="detail-panel">
-
-        <h2>Descuentos Obligatorios Más Comunes</h2>
-
-        <dl>
-
-            <div>
-                <dt>ISR</dt>
-                <dd>Impuesto Sobre la Renta</dd>
-            </div>
-
-            <div>
-                <dt>IMSS</dt>
-                <dd>Seguro Social</dd>
-            </div>
-
-            <div>
-                <dt>Infonavit</dt>
-                <dd>Solo si existe crédito</dd>
-            </div>
-
-            <div>
-                <dt>Subsidio</dt>
-                <dd>Aplica a ciertos ingresos</dd>
-            </div>
-
-            <div>
-                <dt>Neto</dt>
-                <dd>Pago final al trabajador</dd>
-            </div>
-
-        </dl>
-
-    </section>
-
-    <p class="notice">
-
-        Este cálculo es informativo y está basado en las tarifas ISR
-        2026 para sueldos y salarios. No sustituye cálculos oficiales
-        de nómina, IMSS, Infonavit o validaciones fiscales.
-
-    </p>
-
-</section>
-```
-
-</main>
-
-<script src="app.js"></script>
-
-</body>
-</html>
+}

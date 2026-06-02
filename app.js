@@ -1,131 +1,71 @@
-const MXN = new Intl.NumberFormat("es-MX", {
-  style: "currency",
-  currency: "MXN",
-});
-const output = {
-  tax: document.querySelector("#tax-result"),
-  net: document.querySelector("#net-result"),
-  subsidy: document.querySelector("#subsidy-result"),
-  lower: document.querySelector("#lower-limit"),
-  excess: document.querySelector("#excess"),
-  fixed: document.querySelector("#fixed-fee"),
-  rate: document.querySelector("#rate"),
-  beforeSubsidy: document.querySelector("#tax-before-subsidy"),
-};
-const payroll = {
-  date: document.querySelector("#payroll-date"),
-  period: document.querySelector("#payroll-period"),
-  gross: document.querySelector("#payroll-gross"),
-  tax: document.querySelector("#payroll-tax"),
-  subsidy: document.querySelector("#payroll-subsidy"),
-  net: document.querySelector("#payroll-net"),
+function calcularISR(ingreso){
 
-  income: document.querySelector("#summary-income"),
-  deductions: document.querySelector("#summary-deductions"),
-  summaryNet: document.querySelector("#summary-net"),
-};
+    let limiteInferior = 0;
+    let cuotaFija = 0;
+    let porcentaje = 1.92;
 
-const generatePayrollBtn =
-  document.querySelector("#generate-payroll");
+    if(ingreso <= 746.04){
+        limiteInferior = 0.01;
+        cuotaFija = 0;
+        porcentaje = 1.92;
+    }
+    else if(ingreso <= 6332.05){
+        limiteInferior = 746.05;
+        cuotaFija = 14.32;
+        porcentaje = 6.40;
+    }
+    else if(ingreso <= 11128.01){
+        limiteInferior = 6332.06;
+        cuotaFija = 371.83;
+        porcentaje = 10.88;
+    }
+    else{
+        limiteInferior = 11128.02;
+        cuotaFija = 893.63;
+        porcentaje = 16.00;
+    }
 
-const printPayrollBtn =
-  document.querySelector("#print-payroll");
-function updatePayroll(result, salary, period) {
+    let excedente = ingreso - limiteInferior;
 
-  const periodNames = {
-    monthly: "Mensual",
-    biweekly: "Quincenal",
-  };
-
-  payroll.date.textContent =
-    new Date().toLocaleDateString("es-MX");
-
-  payroll.period.textContent =
-    periodNames[period] ?? period;
-
-  payroll.gross.textContent =
-    MXN.format(salary);
-
-  payroll.tax.textContent =
-    MXN.format(result.tax);
-
-  payroll.subsidy.textContent =
-    MXN.format(result.subsidy);
-
-  payroll.net.textContent =
-    MXN.format(result.net);
-
-  payroll.income.textContent =
-    MXN.format(salary);
-
-  payroll.deductions.textContent =
-    MXN.format(result.tax);
-
-  payroll.summaryNet.textContent =
-    MXN.format(result.net);
+    return cuotaFija + (excedente * porcentaje / 100);
 }
-function render() {
 
-  const salary =
-    Number(salaryInput.value) || 0;
+function calcularNomina(){
 
-  const period =
-    new FormData(form).get("period");
+    let sueldo =
+        parseFloat(document.getElementById("sueldo").value) || 0;
 
-  const result = calculateISR(
-    salary,
-    period,
-    subsidyInput.checked
-  );
+    let comisiones =
+        parseFloat(document.getElementById("comisiones").value) || 0;
 
-  output.tax.textContent =
-    MXN.format(result.tax);
+    let septimo =
+        parseFloat(document.getElementById("septimo").value) || 0;
 
-  output.net.textContent =
-    MXN.format(result.net);
+    let subtotal =
+        sueldo + comisiones + septimo;
 
-  output.subsidy.textContent =
-    MXN.format(result.subsidy);
+    let isr = calcularISR(subtotal);
 
-  output.lower.textContent =
-    MXN.format(result.row.lower);
+    let imss = subtotal * 0.025;
 
-  output.excess.textContent =
-    MXN.format(result.excess);
+    let neto =
+        subtotal - isr - imss;
 
-  output.fixed.textContent =
-    MXN.format(result.row.fixed);
+    document.getElementById("rSueldo").innerHTML =
+        "$" + sueldo.toFixed(2);
 
-  output.rate.textContent =
-    `${result.row.rate.toFixed(2)}%`;
+    document.getElementById("rComisiones").innerHTML =
+        "$" + comisiones.toFixed(2);
 
-  output.beforeSubsidy.textContent =
-    MXN.format(result.taxBeforeSubsidy);
+    document.getElementById("rSeptimo").innerHTML =
+        "$" + septimo.toFixed(2);
 
-  updatePayroll(
-    result,
-    salary,
-    period
-  );
+    document.getElementById("rISR").innerHTML =
+        "$" + isr.toFixed(2);
+
+    document.getElementById("rIMSS").innerHTML =
+        "$" + imss.toFixed(2);
+
+    document.getElementById("rNeto").innerHTML =
+        "$" + neto.toFixed(2);
 }
-generatePayrollBtn?.addEventListener(
-  "click",
-  render
-);
-
-printPayrollBtn?.addEventListener(
-  "click",
-  () => window.print()
-);
-
-form.addEventListener(
-  "input",
-  render
-);
-
-subsidyInput.addEventListener(
-  "change",
-  render
-);
-
-render();

@@ -1,520 +1,200 @@
-:root {
-  color-scheme: light;
-
-  --ink: #17211f;
-  --muted: #5d6b67;
-
-  --line: #d8dedb;
-
-  --surface: #ffffff;
-  --soft: #eef4f2;
-
-  --accent: #0f766e;
-  --accent-dark: #0d514d;
-
-  --gold: #b7791f;
-
-  --danger: #9f1239;
-
-  --radius: 12px;
-
-  --shadow:
-    0 10px 25px rgba(0,0,0,.06),
-    0 20px 50px rgba(0,0,0,.08);
-}
-
 /* ===========================
-   RESET
+NÓMINA
 =========================== */
 
-*{
-  box-sizing:border-box;
+.payroll-panel{
+grid-column:1 / -1;
+
+background:var(--surface);
+border:1px solid var(--line);
+border-radius:var(--radius);
+box-shadow:var(--shadow);
+
+padding:24px;
+
+animation:reveal .7s ease;
 }
 
-html{
-  scroll-behavior:smooth;
+.payroll-header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:16px;
+
+margin-bottom:20px;
 }
 
-*{
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+.payroll-actions{
+display:flex;
+gap:10px;
+flex-wrap:wrap;
 }
 
-/* ===========================
-   ANIMACIONES
-=========================== */
+.btn-primary,
+.btn-secondary{
+border:none;
+border-radius:10px;
+min-height:48px;
 
-@keyframes reveal {
-  from {
-    opacity: 0;
-    transform: translateY(24px) scale(.98);
-    filter: blur(8px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-    filter: blur(0);
-  }
+padding:0 18px;
+
+cursor:pointer;
+font-weight:700;
+
+transition:.25s;
 }
 
-@keyframes fadeUp {
-  from {
-    opacity:0;
-    transform:translateY(12px);
-  }
-  to {
-    opacity:1;
-    transform:none;
-  }
+.btn-primary{
+background:var(--accent);
+color:white;
 }
 
-@keyframes floatBackground {
-  0% { transform: translate(0,0); }
-  50% { transform: translate(20px,-20px); }
-  100% { transform: translate(0,0); }
+.btn-primary:hover{
+transform:translateY(-2px);
+background:var(--accent-dark);
 }
 
-@keyframes shine {
-  to { transform: translateX(220%); }
+.btn-secondary{
+background:var(--gold);
+color:white;
 }
 
-@keyframes numberPop {
-  0% { opacity:0; transform: translateY(10px); }
-  50% { transform: translateY(-4px); }
-  100% { opacity:1; transform:none; }
+.btn-secondary:hover{
+transform:translateY(-2px);
+opacity:.9;
 }
 
-/* ===========================
-   BODY
-=========================== */
+.payroll-card{
+border:1px solid var(--line);
+border-radius:12px;
 
-body{
-  margin:0;
-  min-height:100vh;
+background:
+linear-gradient(
+135deg,
+rgba(15,118,110,.04),
+rgba(183,121,31,.04)
+);
 
-  font-family:
-    Inter,
-    Arial,
-    Helvetica,
-    sans-serif;
-
-  color:var(--ink);
-
-  background:
-    linear-gradient(120deg, rgba(15,118,110,.10), transparent 40%),
-    linear-gradient(310deg, rgba(183,121,31,.08), transparent 30%),
-    #f7faf9;
-
-  overflow-x:hidden;
+padding:24px;
 }
 
-/* Fondo flotante */
-body::before{
-  content:"";
-  position:fixed;
-  inset:0;
-  pointer-events:none;
-
-  background:
-    radial-gradient(circle at 20% 20%, rgba(15,118,110,.08), transparent 40%),
-    radial-gradient(circle at 80% 30%, rgba(183,121,31,.08), transparent 35%);
-
-  animation: floatBackground 18s ease-in-out infinite;
+.company-info{
+text-align:center;
+margin-bottom:24px;
 }
 
-/* ===========================
-   CONTENEDOR
-=========================== */
-
-.app-shell{
-  width:min(1080px, calc(100% - 32px));
-  margin:auto;
-  padding:42px 0;
+.company-info h3{
+margin:0;
+font-size:1.6rem;
 }
 
-/* ===========================
-   HEADER
-=========================== */
-
-.topbar{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-
-  margin-bottom:24px;
-  padding-bottom:18px;
-
-  border-bottom:1px solid var(--line);
+.company-info p{
+margin-top:8px;
+color:var(--muted);
 }
 
-.brand{
-  display:flex;
-  flex-direction:column;
+.payroll-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+gap:14px;
+
+margin-bottom:24px;
 }
 
-.brand strong{
-  font-size:1.1rem;
+.payroll-grid div{
+background:white;
+border:1px solid var(--line);
+border-radius:10px;
+
+padding:14px;
 }
 
-.brand small{
-  color:var(--muted);
+.payroll-grid span{
+display:block;
+color:var(--muted);
+font-size:.85rem;
+margin-bottom:6px;
 }
 
-.badge{
-  padding:8px 14px;
-  border-radius:999px;
-
-  background:rgba(15,118,110,.10);
-  color:var(--accent-dark);
-
-  font-weight:700;
-  font-size:.85rem;
+.payroll-grid strong{
+font-size:1.1rem;
 }
 
-/* ===========================
-   LAYOUT
-=========================== */
-
-.calculator{
-  display:grid;
-  grid-template-columns:
-    minmax(280px,.95fr)
-    minmax(300px,1.05fr);
-
-  gap:18px;
-  align-items:start;
+.payroll-summary{
+border-top:1px solid var(--line);
+padding-top:20px;
 }
 
-.intro{
-  grid-column:1 / -1;
-  animation: reveal .8s ease;
+.summary-row{
+display:flex;
+justify-content:space-between;
+align-items:center;
+
+padding:10px 0;
 }
 
-.eyebrow{
-  margin:0 0 10px;
-  color:var(--accent-dark);
-  font-size:.78rem;
-  font-weight:800;
-  text-transform:uppercase;
-  letter-spacing:.06em;
+.summary-row.total{
+margin-top:8px;
+padding-top:14px;
+
+border-top:1px solid var(--line);
+
+font-size:1.2rem;
+font-weight:800;
 }
 
-h1,h2,p{
-  margin-top:0;
+.info-panel{
+grid-column:1 / -1;
+
+background:var(--surface);
+border:1px solid var(--line);
+border-radius:var(--radius);
+
+padding:24px;
+
+box-shadow:var(--shadow);
 }
 
-h1{
-  margin-bottom:10px;
-  font-size:clamp(2.3rem,7vw,4.6rem);
-  line-height:.95;
-  animation: reveal 1s ease;
+.info-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:16px;
 }
 
-.intro p:last-child{
-  max-width:650px;
-  color:var(--muted);
-  font-size:1.05rem;
+.info-grid article{
+background:var(--soft);
+border-radius:10px;
+padding:16px;
 }
 
-/* ===========================
-   TARJETAS
-=========================== */
-
-.panel,
-.detail-panel,
-.metric{
-  background:var(--surface);
-  border:1px solid var(--line);
-  border-radius:var(--radius);
-  box-shadow:var(--shadow);
-
-  animation: reveal .7s cubic-bezier(.22,1,.36,1);
-  animation-fill-mode: both;
-
-  transition:
-    transform .35s cubic-bezier(.22,1,.36,1),
-    box-shadow .35s ease;
+.info-grid h3{
+margin-top:0;
 }
 
-.panel{
-  padding:24px;
-  display:grid;
-  gap:22px;
+.notice{
+grid-column:1 / -1;
+
+padding:18px;
+text-align:center;
+
+color:var(--muted);
+font-size:.9rem;
 }
 
-/* hover suave */
-.panel:hover,
-.detail-panel:hover,
-.metric:hover{
-  transform:translateY(-4px);
-  box-shadow:
-    0 18px 35px rgba(0,0,0,.08),
-    0 30px 60px rgba(0,0,0,.10);
+@media(max-width:760px){
+
+.payroll-header{
+flex-direction:column;
+align-items:flex-start;
 }
 
-/* ===========================
-   INPUTS
-=========================== */
-
-.field{
-  display:grid;
-  gap:10px;
-  border:0;
-  margin:0;
-  padding:0;
+.payroll-actions{
+width:100%;
 }
 
-.field span,
-legend{
-  font-weight:700;
+.btn-primary,
+.btn-secondary{
+flex:1;
 }
-
-.money-input{
-  display:grid;
-  grid-template-columns:auto 1fr;
-  align-items:center;
-
-  min-height:58px;
-  border:1px solid var(--line);
-  border-radius:10px;
-  overflow:hidden;
-
-  background:#fbfdfc;
-  transition:.25s;
-}
-
-.money-input:focus-within{
-  border-color:var(--accent);
-  box-shadow:0 0 0 3px rgba(15,118,110,.15);
-}
-
-.money-input span{
-  padding:0 14px;
-  color:var(--muted);
-}
-
-input[type="number"]{
-  width:100%;
-  border:none;
-  outline:none;
-  background:transparent;
-
-  color:var(--ink);
-  font-size:1.2rem;
-
-  padding:14px 14px 14px 0;
-}
-
-/* ===========================
-   SEGMENTED
-=========================== */
-
-.segmented{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:8px;
-}
-
-.segmented input{
-  position:absolute;
-  opacity:0;
-}
-
-.segmented span{
-  display:grid;
-  min-height:50px;
-  place-items:center;
-
-  border:1px solid var(--line);
-  border-radius:10px;
-  background:#fbfdfc;
-
-  cursor:pointer;
-  transition:.25s;
-}
-
-.segmented span:hover{
-  border-color:var(--accent);
-}
-
-.segmented input:checked + span{
-  background:var(--accent);
-  color:#fff;
-}
-
-/* ===========================
-   BOTÓN
-=========================== */
-
-.btn{
-  border:none;
-  min-height:54px;
-  border-radius:10px;
-
-  background:var(--accent-dark);
-  color:white;
-
-  font-size:1rem;
-  font-weight:700;
-
-  cursor:pointer;
-  transition:.25s;
-}
-
-.btn:hover{
-  transform:translateY(-2px);
-  background:var(--accent);
-}
-
-/* ===========================
-   RESULTADOS
-=========================== */
-
-.results{
-  display:grid;
-  gap:12px;
-  animation:fadeUp .5s ease;
-}
-
-.metric{
-  min-height:100px;
-  padding:18px;
-  display:grid;
-  gap:8px;
-  align-content:center;
-}
-
-.metric span{
-  color:var(--muted);
-  font-size:.9rem;
-}
-
-.metric strong{
-  font-size:2rem;
-}
-
-/* principal */
-.metric.primary{
-  color:white;
-  background:linear-gradient(135deg,var(--accent-dark),var(--accent));
-  border-color:var(--accent-dark);
-
-  position:relative;
-  overflow:hidden;
-}
-
-.metric.primary strong{
-  font-size:3rem;
-}
-
-.metric.primary span{
-  color:rgba(255,255,255,.8);
-}
-
-/* shine */
-.metric.primary::before{
-  content:"";
-  position:absolute;
-  inset:0;
-
-  background:linear-gradient(
-    120deg,
-    transparent,
-    rgba(255,255,255,.12),
-    transparent
-  );
-
-  transform:translateX(-100%);
-}
-
-.metric.primary:hover::before{
-  animation:shine 1.2s ease;
-}
-
-/* ===========================
-   DETALLE
-=========================== */
-
-.detail-panel{
-  grid-column:1 / -1;
-  padding:24px;
-}
-
-.detail-panel h2{
-  margin-bottom:16px;
-}
-
-dl{
-  display:grid;
-  grid-template-columns:repeat(5,minmax(140px,1fr));
-  gap:12px;
-  margin:0;
-}
-
-dl div{
-  padding:14px;
-  border-radius:10px;
-  background:var(--soft);
-}
-
-dt{
-  color:var(--muted);
-  font-size:.85rem;
-}
-
-dd{
-  margin:8px 0 0;
-  font-weight:800;
-}
-
-/* ===========================
-   NÚMEROS ANIMADOS
-=========================== */
-
-.number-update{
-  animation:numberPop .5s ease;
-}
-
-/* ===========================
-   RESPONSIVE
-=========================== */
-
-@media (max-width:760px){
-
-  .app-shell{
-    width:min(calc(100% - 22px),560px);
-    padding:24px 0;
-  }
-
-  .calculator{
-    grid-template-columns:1fr;
-  }
-
-  .topbar{
-    flex-direction:column;
-    gap:12px;
-    align-items:flex-start;
-  }
-
-  dl{
-    grid-template-columns:1fr 1fr;
-  }
-
-}
-
-@media (max-width:440px){
-
-  .segmented,
-  dl{
-    grid-template-columns:1fr;
-  }
-
-  .metric strong{
-    font-size:1.6rem;
-  }
-
-  .metric.primary strong{
-    font-size:2.3rem;
-  }
 
 }

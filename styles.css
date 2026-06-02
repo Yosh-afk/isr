@@ -2,88 +2,89 @@
     margin:0;
     padding:0;
     box-sizing:border-box;
-    font-family:Segoe UI, sans-serif;
+    font-family:'Segoe UI',sans-serif;
 }
 
 body{
-    background:#f4f6f9;
-    padding:30px;
+    background:#f1f5f9;
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
 }
 
-.container{
-    max-width:900px;
-    margin:auto;
+.contenedor{
+    width:100%;
+    max-width:700px;
 }
 
 h1{
     text-align:center;
     margin-bottom:20px;
-    color:#1d3557;
+    color:#0f172a;
 }
 
-.formulario{
+.card{
     background:white;
     padding:25px;
     border-radius:15px;
-    box-shadow:0 5px 15px rgba(0,0,0,.1);
-}
-
-.campo{
-    margin-bottom:15px;
+    box-shadow:0 10px 25px rgba(0,0,0,.08);
 }
 
 label{
     display:block;
-    margin-bottom:5px;
-    font-weight:bold;
+    margin-top:15px;
+    margin-bottom:8px;
+    font-weight:600;
 }
 
-input{
+input,
+select{
     width:100%;
-    padding:10px;
-    border:1px solid #ccc;
-    border-radius:8px;
+    padding:12px;
+    border:1px solid #d1d5db;
+    border-radius:10px;
+    font-size:16px;
 }
 
 button{
     width:100%;
-    background:#1d3557;
-    color:white;
+    margin-top:20px;
+    padding:14px;
     border:none;
-    padding:12px;
-    border-radius:8px;
-    cursor:pointer;
+    border-radius:10px;
+    background:#2563eb;
+    color:white;
     font-size:16px;
+    cursor:pointer;
 }
 
 button:hover{
-    background:#274c77;
+    background:#1d4ed8;
 }
 
 .resultado{
-    margin-top:25px;
+    margin-top:20px;
     background:white;
     padding:25px;
     border-radius:15px;
-    box-shadow:0 5px 15px rgba(0,0,0,.1);
+    box-shadow:0 10px 25px rgba(0,0,0,.08);
 }
 
-table{
-    width:100%;
-    border-collapse:collapse;
+.resultado h2{
+    margin-bottom:15px;
 }
 
-th{
-    background:#1d3557;
-    color:white;
-}
-
-th,td{
-    padding:12px;
-    border:1px solid #ddd;
+.fila{
+    display:flex;
+    justify-content:space-between;
+    padding:12px 0;
+    border-bottom:1px solid #e5e7eb;
 }
 
 .neto{
-    background:#dff6dd;
+    font-size:20px;
     font-weight:bold;
+    color:#16a34a;
 }

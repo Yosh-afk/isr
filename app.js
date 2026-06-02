@@ -1,71 +1,94 @@
-function calcularISR(ingreso){
+const formatoMXN = new Intl.NumberFormat("es-MX", {
+    style: "currency",
+    currency: "MXN"
+});
 
-    let limiteInferior = 0;
-    let cuotaFija = 0;
-    let porcentaje = 1.92;
+function calcularISR(ingreso, periodo){
 
-    if(ingreso <= 746.04){
-        limiteInferior = 0.01;
-        cuotaFija = 0;
-        porcentaje = 1.92;
+    let ingresoMensual = ingreso;
+
+    if(periodo === "semanal"){
+        ingresoMensual = ingreso * 4.333;
     }
-    else if(ingreso <= 6332.05){
-        limiteInferior = 746.05;
-        cuotaFija = 14.32;
-        porcentaje = 6.40;
+
+    if(periodo === "quincenal"){
+        ingresoMensual = ingreso * 2;
     }
-    else if(ingreso <= 11128.01){
-        limiteInferior = 6332.06;
-        cuotaFija = 371.83;
-        porcentaje = 10.88;
+
+    let isr = 0;
+
+    if(ingresoMensual <= 746.04){
+        isr = ingresoMensual * 0.0192;
+    }
+    else if(ingresoMensual <= 6332.05){
+        isr = 14.32 + ((ingresoMensual - 746.05) * 0.064);
+    }
+    else if(ingresoMensual <= 11128.01){
+        isr = 371.83 + ((ingresoMensual - 6332.06) * 0.1088);
+    }
+    else if(ingresoMensual <= 12935.82){
+        isr = 893.63 + ((ingresoMensual - 11128.02) * 0.16);
+    }
+    else if(ingresoMensual <= 15487.71){
+        isr = 1182.88 + ((ingresoMensual - 12935.83) * 0.1792);
+    }
+    else if(ingresoMensual <= 31236.49){
+        isr = 1640.18 + ((ingresoMensual - 15487.72) * 0.2136);
+    }
+    else if(ingresoMensual <= 49233){
+        isr = 5004.12 + ((ingresoMensual - 31236.50) * 0.2352);
+    }
+    else if(ingresoMensual <= 93993.90){
+        isr = 9236.89 + ((ingresoMensual - 49233.01) * 0.30);
     }
     else{
-        limiteInferior = 11128.02;
-        cuotaFija = 893.63;
-        porcentaje = 16.00;
+        isr = 22665.17 + ((ingresoMensual - 93993.91) * 0.32);
     }
 
-    let excedente = ingreso - limiteInferior;
+    if(periodo === "semanal"){
+        return isr / 4.333;
+    }
 
-    return cuotaFija + (excedente * porcentaje / 100);
+    if(periodo === "quincenal"){
+        return isr / 2;
+    }
+
+    return isr;
 }
 
 function calcularNomina(){
 
-    let sueldo =
-        parseFloat(document.getElementById("sueldo").value) || 0;
+    const sueldo =
+        parseFloat(document.getElementById("sueldo").value);
 
-    let comisiones =
-        parseFloat(document.getElementById("comisiones").value) || 0;
+    const periodo =
+        document.getElementById("periodo").value;
 
-    let septimo =
-        parseFloat(document.getElementById("septimo").value) || 0;
+    if(!sueldo || sueldo <= 0){
+        alert("Ingresa un sueldo válido");
+        return;
+    }
 
-    let subtotal =
-        sueldo + comisiones + septimo;
+    const isr = calcularISR(sueldo, periodo);
 
-    let isr = calcularISR(subtotal);
+    const imss = sueldo * 0.025;
 
-    let imss = subtotal * 0.025;
+    const impuestos = isr + imss;
 
-    let neto =
-        subtotal - isr - imss;
+    const neto = sueldo - impuestos;
 
-    document.getElementById("rSueldo").innerHTML =
-        "$" + sueldo.toFixed(2);
+    document.getElementById("bruto").textContent =
+        formatoMXN.format(sueldo);
 
-    document.getElementById("rComisiones").innerHTML =
-        "$" + comisiones.toFixed(2);
+    document.getElementById("isr").textContent =
+        formatoMXN.format(isr);
 
-    document.getElementById("rSeptimo").innerHTML =
-        "$" + septimo.toFixed(2);
+    document.getElementById("imss").textContent =
+        formatoMXN.format(imss);
 
-    document.getElementById("rISR").innerHTML =
-        "$" + isr.toFixed(2);
+    document.getElementById("impuestos").textContent =
+        formatoMXN.format(impuestos);
 
-    document.getElementById("rIMSS").innerHTML =
-        "$" + imss.toFixed(2);
-
-    document.getElementById("rNeto").innerHTML =
-        "$" + neto.toFixed(2);
+    document.getElementById("neto").textContent =
+        formatoMXN.format(neto);
 }

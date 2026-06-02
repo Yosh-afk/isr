@@ -3,84 +3,67 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Calculadora ISR México</title>
+<title>Calculadora de Nómina México</title>
+
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<div class="container">
+<div class="contenedor">
 
-    <h1>Calculadora de Nómina e ISR</h1>
+    <h1>Calculadora de Nómina</h1>
 
-    <div class="formulario">
+    <div class="card">
 
-        <div class="campo">
-            <label>Nombre</label>
-            <input type="text" id="nombre">
-        </div>
+        <label>Sueldo Bruto</label>
+        <input
+            type="number"
+            id="sueldo"
+            placeholder="Ej. 15000"
+        >
 
-        <div class="campo">
-            <label>Sueldo Base</label>
-            <input type="number" id="sueldo" value="1980">
-        </div>
+        <label>Periodicidad</label>
 
-        <div class="campo">
-            <label>Comisiones</label>
-            <input type="number" id="comisiones" value="300">
-        </div>
-
-        <div class="campo">
-            <label>Séptimo Día</label>
-            <input type="number" id="septimo" value="330">
-        </div>
+        <select id="periodo">
+            <option value="semanal">Semanal</option>
+            <option value="quincenal">Quincenal</option>
+            <option value="mensual">Mensual</option>
+        </select>
 
         <button onclick="calcularNomina()">
-            Generar Nómina
+            Calcular Nómina
         </button>
 
     </div>
 
     <div class="resultado">
 
-        <h2>Recibo de Nómina</h2>
+        <h2>Resultado</h2>
 
-        <table>
-            <tr>
-                <th>Concepto</th>
-                <th>Importe</th>
-            </tr>
+        <div class="fila">
+            <span>Sueldo Bruto</span>
+            <span id="bruto">$0.00</span>
+        </div>
 
-            <tr>
-                <td>Sueldo</td>
-                <td id="rSueldo">$0</td>
-            </tr>
+        <div class="fila">
+            <span>ISR</span>
+            <span id="isr">$0.00</span>
+        </div>
 
-            <tr>
-                <td>Comisiones</td>
-                <td id="rComisiones">$0</td>
-            </tr>
+        <div class="fila">
+            <span>IMSS</span>
+            <span id="imss">$0.00</span>
+        </div>
 
-            <tr>
-                <td>Séptimo Día</td>
-                <td id="rSeptimo">$0</td>
-            </tr>
+        <div class="fila">
+            <span>Total Impuestos</span>
+            <span id="impuestos">$0.00</span>
+        </div>
 
-            <tr>
-                <td>ISR</td>
-                <td id="rISR">$0</td>
-            </tr>
-
-            <tr>
-                <td>IMSS</td>
-                <td id="rIMSS">$0</td>
-            </tr>
-
-            <tr class="neto">
-                <td>Neto a Pagar</td>
-                <td id="rNeto">$0</td>
-            </tr>
-
-        </table>
+        <div class="fila neto">
+            <span>Sueldo Neto</span>
+            <span id="neto">$0.00</span>
+        </div>
 
     </div>
 

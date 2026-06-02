@@ -5,21 +5,32 @@ const MXN = new Intl.NumberFormat("es-MX", {
 
 let chart = null;
 
+// =========================
+// MODO OSCURO
+// =========================
+
 const themeBtn = document.getElementById("themeBtn");
 
-themeBtn.addEventListener("click", () => {
+if (themeBtn) {
 
-    document.body.classList.toggle("dark");
+    themeBtn.addEventListener("click", () => {
 
-    if(document.body.classList.contains("dark")){
-        themeBtn.innerHTML = "☀️";
-    }else{
-        themeBtn.innerHTML = "🌙";
-    }
+        document.body.classList.toggle("dark");
 
-});
+        themeBtn.textContent =
+            document.body.classList.contains("dark")
+            ? "☀️"
+            : "🌙";
 
-function calcularISR(){
+    });
+
+}
+
+// =========================
+// CALCULAR ISR
+// =========================
+
+function calcularISR() {
 
     const sueldo =
         parseFloat(document.getElementById("sueldo").value);
@@ -27,7 +38,7 @@ function calcularISR(){
     const periodo =
         document.getElementById("periodo").value;
 
-    if(!sueldo || sueldo <= 0){
+    if (isNaN(sueldo) || sueldo <= 0) {
 
         alert("Ingresa un sueldo válido");
 
@@ -36,85 +47,85 @@ function calcularISR(){
 
     let sueldoMensual = sueldo;
 
-    if(periodo === "quincenal"){
+    if (periodo === "quincenal") {
         sueldoMensual = sueldo * 2;
     }
 
-    if(periodo === "semanal"){
+    if (periodo === "semanal") {
         sueldoMensual = sueldo * 4.333;
     }
 
-    let limiteInferior = 0;
-    let cuotaFija = 0;
-    let porcentaje = 0;
+    let limiteInferior;
+    let cuotaFija;
+    let porcentaje;
 
-    if(sueldoMensual <= 746.04){
+    if (sueldoMensual <= 746.04) {
         limiteInferior = 0.01;
         cuotaFija = 0;
         porcentaje = 1.92;
     }
-    else if(sueldoMensual <= 6332.05){
+    else if (sueldoMensual <= 6332.05) {
         limiteInferior = 746.05;
         cuotaFija = 14.32;
         porcentaje = 6.40;
     }
-    else if(sueldoMensual <= 11128.01){
+    else if (sueldoMensual <= 11128.01) {
         limiteInferior = 6332.06;
         cuotaFija = 371.83;
         porcentaje = 10.88;
     }
-    else if(sueldoMensual <= 12935.82){
+    else if (sueldoMensual <= 12935.82) {
         limiteInferior = 11128.02;
         cuotaFija = 893.63;
-        porcentaje = 16.00;
+        porcentaje = 16;
     }
-    else if(sueldoMensual <= 15487.71){
+    else if (sueldoMensual <= 15487.71) {
         limiteInferior = 12935.83;
         cuotaFija = 1182.88;
         porcentaje = 17.92;
     }
-    else if(sueldoMensual <= 31236.49){
+    else if (sueldoMensual <= 31236.49) {
         limiteInferior = 15487.72;
         cuotaFija = 1640.18;
         porcentaje = 21.36;
     }
-    else if(sueldoMensual <= 49233.00){
+    else if (sueldoMensual <= 49233.00) {
         limiteInferior = 31236.50;
         cuotaFija = 5004.12;
         porcentaje = 23.52;
     }
-    else if(sueldoMensual <= 93993.90){
+    else if (sueldoMensual <= 93993.90) {
         limiteInferior = 49233.01;
         cuotaFija = 9236.89;
-        porcentaje = 30.00;
+        porcentaje = 30;
     }
-    else{
+    else {
         limiteInferior = 93993.91;
         cuotaFija = 22665.17;
-        porcentaje = 32.00;
+        porcentaje = 32;
     }
 
     const excedente =
         sueldoMensual - limiteInferior;
 
     const isrMensual =
-        cuotaFija + (excedente * porcentaje / 100);
+        cuotaFija +
+        (excedente * porcentaje / 100);
 
-    let isrPeriodo = isrMensual;
+    let isr = isrMensual;
 
-    if(periodo === "quincenal"){
-        isrPeriodo = isrMensual / 2;
+    if (periodo === "quincenal") {
+        isr = isrMensual / 2;
     }
 
-    if(periodo === "semanal"){
-        isrPeriodo = isrMensual / 4.333;
+    if (periodo === "semanal") {
+        isr = isrMensual / 4.333;
     }
 
-    const neto =
-        sueldo - isrPeriodo;
+    const neto = sueldo - isr;
 
     const tasa =
-        (isrPeriodo / sueldo) * 100;
+        ((isr / sueldo) * 100).toFixed(2);
 
     const ingresoAnual =
         sueldoMensual * 12;
@@ -122,30 +133,7 @@ function calcularISR(){
     const isrAnual =
         isrMensual * 12;
 
-    actualizarPantalla(
-        sueldo,
-        isrPeriodo,
-        neto,
-        tasa,
-        ingresoAnual,
-        isrAnual
-    );
-
-    crearGrafica(
-        isrPeriodo,
-        neto
-    );
-
-}
-
-function actualizarPantalla(
-    sueldo,
-    isr,
-    neto,
-    tasa,
-    ingresoAnual,
-    isrAnual
-){
+    // RESULTADOS
 
     document.getElementById("bruto").textContent =
         MXN.format(sueldo);
@@ -160,7 +148,7 @@ function actualizarPantalla(
         MXN.format(isr);
 
     document.getElementById("tasa").textContent =
-        tasa.toFixed(2) + "%";
+        tasa + "%";
 
     document.getElementById("anual").textContent =
         MXN.format(ingresoAnual);
@@ -168,74 +156,70 @@ function actualizarPantalla(
     document.getElementById("isrAnual").textContent =
         MXN.format(isrAnual);
 
+    crearGrafica(isr, neto);
 }
 
-function crearGrafica(
-    isr,
-    neto
-){
+// =========================
+// GRÁFICA
+// =========================
+
+function crearGrafica(isr, neto) {
+
+    if (typeof Chart === "undefined") {
+        return;
+    }
+
+    const canvas =
+        document.getElementById("grafica");
+
+    if (!canvas) {
+        return;
+    }
 
     const ctx =
-        document
-        .getElementById("grafica")
-        .getContext("2d");
+        canvas.getContext("2d");
 
-    if(chart){
+    if (chart) {
         chart.destroy();
     }
 
     chart = new Chart(ctx, {
 
-        type:"doughnut",
+        type: "doughnut",
 
-        data:{
-            labels:[
+        data: {
+
+            labels: [
                 "ISR",
                 "Neto"
             ],
 
-            datasets:[{
-
-                data:[
+            datasets: [{
+                data: [
                     isr,
                     neto
                 ],
 
-                backgroundColor:[
+                backgroundColor: [
                     "#ef4444",
                     "#22c55e"
-                ],
-
-                borderWidth:0
-
+                ]
             }]
         },
 
-        options:{
-
-            responsive:true,
-
-            plugins:{
-
-                legend:{
-
-                    position:"bottom",
-
-                    labels:{
-                        color:"#ffffff"
-                    }
-
-                }
-
-            }
-
+        options: {
+            responsive: true
         }
 
     });
 
 }
 
-function limpiarFormulario(){
+// =========================
+// LIMPIAR
+// =========================
+
+function limpiarFormulario() {
 
     document.getElementById("sueldo").value = "";
 
@@ -248,67 +232,76 @@ function limpiarFormulario(){
     document.getElementById("anual").textContent = "$0.00";
     document.getElementById("isrAnual").textContent = "$0.00";
 
-    if(chart){
+    if (chart) {
         chart.destroy();
         chart = null;
     }
 
 }
 
-document
-.getElementById("pdfBtn")
-.addEventListener("click", () => {
+// =========================
+// PDF
+// =========================
 
-    const { jsPDF } = window.jspdf;
+const pdfBtn =
+    document.getElementById("pdfBtn");
 
-    const pdf = new jsPDF();
+if (pdfBtn) {
 
-    pdf.setFontSize(18);
-    pdf.text(
-        "Calculadora ISR México",
-        20,
-        20
-    );
+    pdfBtn.addEventListener("click", () => {
 
-    pdf.setFontSize(12);
+        if (
+            typeof window.jspdf === "undefined"
+        ) {
 
-    pdf.text(
-        "Sueldo Bruto: " +
-        document.getElementById("bruto").textContent,
-        20,
-        40
-    );
+            alert(
+                "jsPDF no se cargó correctamente."
+            );
 
-    pdf.text(
-        "ISR: " +
-        document.getElementById("isr").textContent,
-        20,
-        50
-    );
+            return;
+        }
 
-    pdf.text(
-        "Neto: " +
-        document.getElementById("neto").textContent,
-        20,
-        60
-    );
+        const { jsPDF } =
+            window.jspdf;
 
-    pdf.text(
-        "Ingreso Anual: " +
-        document.getElementById("anual").textContent,
-        20,
-        70
-    );
+        const pdf =
+            new jsPDF();
 
-    pdf.text(
-        "ISR Anual: " +
-        document.getElementById("isrAnual").textContent,
-        20,
-        80
-    );
+        pdf.setFontSize(18);
 
-    pdf.save(
-        "ISR_Mexico.pdf"
-    );
+        pdf.text(
+            "Calculadora ISR México",
+            20,
+            20
+        );
 
-});
+        pdf.setFontSize(12);
+
+        pdf.text(
+            "Bruto: " +
+            document.getElementById("bruto").textContent,
+            20,
+            40
+        );
+
+        pdf.text(
+            "ISR: " +
+            document.getElementById("isr").textContent,
+            20,
+            50
+        );
+
+        pdf.text(
+            "Neto: " +
+            document.getElementById("neto").textContent,
+            20,
+            60
+        );
+
+        pdf.save(
+            "ISR_Mexico.pdf"
+        );
+
+    });
+
+}

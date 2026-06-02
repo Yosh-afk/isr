@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculadora ISR México 2026</title>
+    <title>Calculadora ISR y Nómina 2026</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -14,14 +14,21 @@
 ```
 <section class="calculator">
 
-    <header class="intro">
-        <p class="eyebrow">México · ISR 2026 · Nómina</p>
-        <h1 id="app-title">Calculadora ISR y Nómina</h1>
+    <div class="intro">
+        <p class="eyebrow">México · Nómina · ISR 2026</p>
+
+        <h1 id="app-title">
+            Calculadora ISR y Nómina
+        </h1>
+
         <p>
-            Calcula ISR, subsidio al empleo y genera una nómina estimada
-            para pagos diarios, semanales, quincenales y mensuales.
+            Calcula el ISR retenido y genera una nómina estimada
+            con los descuentos obligatorios más comunes para
+            trabajadores asalariados en México.
         </p>
-    </header>
+    </div>
+
+    <!-- FORMULARIO -->
 
     <form id="isr-form" class="panel">
 
@@ -30,6 +37,7 @@
 
             <div class="money-input">
                 <span>$</span>
+
                 <input
                     id="salary"
                     name="salary"
@@ -44,36 +52,10 @@
         </label>
 
         <fieldset class="field">
+
             <legend>Periodo de pago</legend>
 
             <div class="segmented">
-
-                <label>
-                    <input
-                        type="radio"
-                        name="period"
-                        value="daily"
-                    >
-                    <span>Diario</span>
-                </label>
-
-                <label>
-                    <input
-                        type="radio"
-                        name="period"
-                        value="weekly"
-                    >
-                    <span>Semanal</span>
-                </label>
-
-                <label>
-                    <input
-                        type="radio"
-                        name="period"
-                        value="biweekly"
-                    >
-                    <span>Quincenal</span>
-                </label>
 
                 <label>
                     <input
@@ -85,21 +67,36 @@
                     <span>Mensual</span>
                 </label>
 
+                <label>
+                    <input
+                        type="radio"
+                        name="period"
+                        value="biweekly"
+                    >
+                    <span>Quincenal</span>
+                </label>
+
             </div>
+
         </fieldset>
 
         <label class="check-row">
+
             <input
                 id="apply-subsidy"
                 type="checkbox"
                 checked
             >
+
             <span>
-                Aplicar subsidio al empleo cuando corresponda
+                Aplicar subsidio al empleo
             </span>
+
         </label>
 
     </form>
+
+    <!-- RESULTADOS -->
 
     <section class="results">
 
@@ -109,7 +106,7 @@
         </article>
 
         <article class="metric">
-            <span>Sueldo neto</span>
+            <span>Sueldo neto estimado</span>
             <strong id="net-result">$0.00</strong>
         </article>
 
@@ -119,6 +116,8 @@
         </article>
 
     </section>
+
+    <!-- DESGLOSE ISR -->
 
     <section class="detail-panel">
 
@@ -155,9 +154,12 @@
 
     </section>
 
+    <!-- NÓMINA -->
+
     <section class="payroll-panel">
 
         <div class="payroll-header">
+
             <h2>Nómina Estimada</h2>
 
             <div class="payroll-actions">
@@ -179,13 +181,14 @@
                 </button>
 
             </div>
+
         </div>
 
-        <div id="payroll-card" class="payroll-card">
+        <div class="payroll-card">
 
             <div class="company-info">
                 <h3>Recibo de Nómina</h3>
-                <p>ISR México 2026</p>
+                <p>Estimación Fiscal 2026</p>
             </div>
 
             <div class="payroll-grid">
@@ -230,7 +233,7 @@
                 </div>
 
                 <div class="summary-row">
-                    <span>Deducciones ISR</span>
+                    <span>ISR</span>
                     <strong id="summary-deductions">$0.00</strong>
                 </div>
 
@@ -245,49 +248,50 @@
 
     </section>
 
-    <section class="info-panel">
+    <!-- IMPUESTOS OBLIGATORIOS -->
 
-        <h2>Información Fiscal</h2>
+    <section class="detail-panel">
 
-        <div class="info-grid">
+        <h2>Descuentos Obligatorios Más Comunes</h2>
 
-            <article>
-                <h3>ISR 2026</h3>
-                <p>
-                    Cálculo basado en las tarifas vigentes para
-                    sueldos y salarios.
-                </p>
-            </article>
+        <dl>
 
-            <article>
-                <h3>Subsidio al Empleo</h3>
-                <p>
-                    Se aplica automáticamente cuando el ingreso
-                    cumple con los requisitos establecidos.
-                </p>
-            </article>
+            <div>
+                <dt>ISR</dt>
+                <dd>Impuesto Sobre la Renta</dd>
+            </div>
 
-            <article>
-                <h3>Nómina</h3>
-                <p>
-                    Genera un resumen rápido de percepciones,
-                    deducciones y neto a pagar.
-                </p>
-            </article>
+            <div>
+                <dt>IMSS</dt>
+                <dd>Seguro Social</dd>
+            </div>
 
-        </div>
+            <div>
+                <dt>Infonavit</dt>
+                <dd>Solo si existe crédito</dd>
+            </div>
+
+            <div>
+                <dt>Subsidio</dt>
+                <dd>Aplica a ciertos ingresos</dd>
+            </div>
+
+            <div>
+                <dt>Neto</dt>
+                <dd>Pago final al trabajador</dd>
+            </div>
+
+        </dl>
 
     </section>
 
-    <footer class="notice">
+    <p class="notice">
 
-        <p>
-            Este cálculo es únicamente informativo y se basa en las
-            tarifas ISR 2026 para México. No sustituye asesoría
-            fiscal, cálculo oficial de nómina ni validación ante SAT.
-        </p>
+        Este cálculo es informativo y está basado en las tarifas ISR
+        2026 para sueldos y salarios. No sustituye cálculos oficiales
+        de nómina, IMSS, Infonavit o validaciones fiscales.
 
-    </footer>
+    </p>
 
 </section>
 ```

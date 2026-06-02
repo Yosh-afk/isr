@@ -1,299 +1,92 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculadora ISR y Nómina 2026</title>
-    <link rel="stylesheet" href="styles.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calculadora ISR México</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<main class="app-shell">
+<div class="container">
 
-    <section class="calculator">
+    <h1>Calculadora de Nómina e ISR</h1>
 
-        <div class="intro">
-            <p class="eyebrow">México · Nómina · ISR 2026</p>
+    <div class="formulario">
 
-            <h1 id="app-title">
-                Calculadora ISR y Nómina
-            </h1>
-
-            <p>
-                Calcula el ISR retenido y genera una nómina estimada
-                con los descuentos obligatorios más comunes para
-                trabajadores asalariados en México.
-            </p>
+        <div class="campo">
+            <label>Nombre</label>
+            <input type="text" id="nombre">
         </div>
 
-        <form id="isr-form" class="panel">
+        <div class="campo">
+            <label>Sueldo Base</label>
+            <input type="number" id="sueldo" value="1980">
+        </div>
 
-            <label class="field">
-                <span>Sueldo bruto</span>
+        <div class="campo">
+            <label>Comisiones</label>
+            <input type="number" id="comisiones" value="300">
+        </div>
 
-                <div class="money-input">
-                    <span>$</span>
+        <div class="campo">
+            <label>Séptimo Día</label>
+            <input type="number" id="septimo" value="330">
+        </div>
 
-                    <input
-                        id="salary"
-                        name="salary"
-                        type="number"
-                        inputmode="decimal"
-                        min="0"
-                        step="0.01"
-                        value="0"
-                        required
-                    >
-                </div>
-            </label>
+        <button onclick="calcularNomina()">
+            Generar Nómina
+        </button>
 
-            <fieldset class="field">
+    </div>
 
-                <legend>Periodo de pago</legend>
+    <div class="resultado">
 
-                <div class="segmented">
+        <h2>Recibo de Nómina</h2>
 
-                    <label>
-                        <input
-                            type="radio"
-                            name="period"
-                            value="monthly"
-                            checked
-                        >
-                        <span>Mensual</span>
-                    </label>
+        <table>
+            <tr>
+                <th>Concepto</th>
+                <th>Importe</th>
+            </tr>
 
-                    <label>
-                        <input
-                            type="radio"
-                            name="period"
-                            value="biweekly"
-                        >
-                        <span>Quincenal</span>
-                    </label>
+            <tr>
+                <td>Sueldo</td>
+                <td id="rSueldo">$0</td>
+            </tr>
 
-                </div>
+            <tr>
+                <td>Comisiones</td>
+                <td id="rComisiones">$0</td>
+            </tr>
 
-            </fieldset>
+            <tr>
+                <td>Séptimo Día</td>
+                <td id="rSeptimo">$0</td>
+            </tr>
 
-            <label class="check-row">
+            <tr>
+                <td>ISR</td>
+                <td id="rISR">$0</td>
+            </tr>
 
-                <input
-                    id="apply-subsidy"
-                    type="checkbox"
-                    checked
-                >
+            <tr>
+                <td>IMSS</td>
+                <td id="rIMSS">$0</td>
+            </tr>
 
-                <span>
-                    Aplicar subsidio al empleo
-                </span>
+            <tr class="neto">
+                <td>Neto a Pagar</td>
+                <td id="rNeto">$0</td>
+            </tr>
 
-            </label>
+        </table>
 
-        </form>
+    </div>
 
-        <!-- RESULTADOS -->
+</div>
 
-        <section class="results">
-
-            <article class="metric primary">
-                <span>ISR retenido</span>
-                <strong id="tax-result">$0.00</strong>
-            </article>
-
-            <article class="metric">
-                <span>Sueldo neto estimado</span>
-                <strong id="net-result">$0.00</strong>
-            </article>
-
-            <article class="metric">
-                <span>Subsidio aplicado</span>
-                <strong id="subsidy-result">$0.00</strong>
-            </article>
-
-        </section>
-
-        <!-- DESGLOSE ISR -->
-
-        <section class="detail-panel">
-
-            <h2>Desglose ISR</h2>
-
-            <dl>
-
-                <div>
-                    <dt>Límite inferior</dt>
-                    <dd id="lower-limit">$0.00</dd>
-                </div>
-
-                <div>
-                    <dt>Excedente</dt>
-                    <dd id="excess">$0.00</dd>
-                </div>
-
-                <div>
-                    <dt>Cuota fija</dt>
-                    <dd id="fixed-fee">$0.00</dd>
-                </div>
-
-                <div>
-                    <dt>Tasa marginal</dt>
-                    <dd id="rate">0%</dd>
-                </div>
-
-                <div>
-                    <dt>ISR antes de subsidio</dt>
-                    <dd id="tax-before-subsidy">$0.00</dd>
-                </div>
-
-            </dl>
-
-        </section>
-
-        <!-- NÓMINA -->
-
-        <section class="payroll-panel">
-
-            <div class="payroll-header">
-
-                <h2>Nómina Estimada</h2>
-
-                <div class="payroll-actions">
-
-                    <button
-                        type="button"
-                        id="generate-payroll"
-                        class="btn-primary"
-                    >
-                        Generar Nómina
-                    </button>
-
-                    <button
-                        type="button"
-                        id="print-payroll"
-                        class="btn-secondary"
-                    >
-                        Imprimir
-                    </button>
-
-                </div>
-
-            </div>
-
-            <div class="payroll-card">
-
-                <div class="company-info">
-                    <h3>Recibo de Nómina</h3>
-                    <p>Estimación Fiscal</p>
-                </div>
-
-                <div class="payroll-grid">
-
-                    <div>
-                        <span>Fecha</span>
-                        <strong id="payroll-date">--/--/----</strong>
-                    </div>
-
-                    <div>
-                        <span>Periodo</span>
-                        <strong id="payroll-period">Mensual</strong>
-                    </div>
-
-                    <div>
-                        <span>Sueldo Bruto</span>
-                        <strong id="payroll-gross">$0.00</strong>
-                    </div>
-
-                    <div>
-                        <span>ISR Retenido</span>
-                        <strong id="payroll-tax">$0.00</strong>
-                    </div>
-
-                    <div>
-                        <span>Subsidio</span>
-                        <strong id="payroll-subsidy">$0.00</strong>
-                    </div>
-
-                    <div>
-                        <span>Neto a Pagar</span>
-                        <strong id="payroll-net">$0.00</strong>
-                    </div>
-
-                </div>
-
-                <div class="payroll-summary">
-
-                    <div class="summary-row">
-                        <span>Percepciones</span>
-                        <strong id="summary-income">$0.00</strong>
-                    </div>
-
-                    <div class="summary-row">
-                        <span>ISR</span>
-                        <strong id="summary-deductions">$0.00</strong>
-                    </div>
-
-                    <div class="summary-row total">
-                        <span>Total Neto</span>
-                        <strong id="summary-net">$0.00</strong>
-                    </div>
-
-                </div>
-
-            </div>
-
-        </section>
-
-        <!-- IMPUESTOS -->
-
-        <section class="detail-panel">
-
-            <h2>Descuentos Obligatorios Más Comunes</h2>
-
-            <dl>
-
-                <div>
-                    <dt>ISR</dt>
-                    <dd>Impuesto Sobre la Renta</dd>
-                </div>
-
-                <div>
-                    <dt>IMSS</dt>
-                    <dd>Seguro Social</dd>
-                </div>
-
-                <div>
-                    <dt>Infonavit</dt>
-                    <dd>Solo si existe crédito</dd>
-                </div>
-
-                <div>
-                    <dt>Subsidio</dt>
-                    <dd>Aplica a ciertos ingresos</dd>
-                </div>
-
-                <div>
-                    <dt>Neto</dt>
-                    <dd>Pago final al trabajador</dd>
-                </div>
-
-            </dl>
-
-        </section>
-
-        <p class="notice">
-
-            Este cálculo es informativo y está basado en las tarifas ISR
-            para sueldos y salarios. No sustituye cálculos oficiales de
-            nómina, IMSS, Infonavit o validaciones fiscales.
-
-        </p>
-
-    </section>
-
-</main>
-
-<script src="app.js"></script>
+<script src="script.js"></script>
 
 </body>
 </html>

@@ -39,9 +39,7 @@ function calcularISR() {
         document.getElementById("periodo").value;
 
     if (isNaN(sueldo) || sueldo <= 0) {
-
         alert("Ingresa un sueldo válido");
-
         return;
     }
 
@@ -105,12 +103,14 @@ function calcularISR() {
         porcentaje = 32;
     }
 
-    const excedente =
-        sueldoMensual - limiteInferior;
+    // =========================
+    // FÓRMULA ISR CORREGIDA
+    // ISR = Cuota Fija + ((Sueldo - Límite Inferior) × Tasa)
+    // =========================
 
     const isrMensual =
         cuotaFija +
-        (excedente * porcentaje / 100);
+        ((sueldoMensual - limiteInferior) * (porcentaje / 100));
 
     let isr = isrMensual;
 
@@ -165,54 +165,28 @@ function calcularISR() {
 
 function crearGrafica(isr, neto) {
 
-    if (typeof Chart === "undefined") {
-        return;
-    }
+    if (typeof Chart === "undefined") return;
 
-    const canvas =
-        document.getElementById("grafica");
+    const canvas = document.getElementById("grafica");
+    if (!canvas) return;
 
-    if (!canvas) {
-        return;
-    }
+    const ctx = canvas.getContext("2d");
 
-    const ctx =
-        canvas.getContext("2d");
-
-    if (chart) {
-        chart.destroy();
-    }
+    if (chart) chart.destroy();
 
     chart = new Chart(ctx, {
-
         type: "doughnut",
-
         data: {
-
-            labels: [
-                "ISR",
-                "Neto"
-            ],
-
+            labels: ["ISR", "Neto"],
             datasets: [{
-                data: [
-                    isr,
-                    neto
-                ],
-
-                backgroundColor: [
-                    "#ef4444",
-                    "#22c55e"
-                ]
+                data: [isr, neto],
+                backgroundColor: ["#ef4444", "#22c55e"]
             }]
         },
-
         options: {
             responsive: true
         }
-
     });
-
 }
 
 // =========================
@@ -236,7 +210,6 @@ function limpiarFormulario() {
         chart.destroy();
         chart = null;
     }
-
 }
 
 // =========================
@@ -250,58 +223,22 @@ if (pdfBtn) {
 
     pdfBtn.addEventListener("click", () => {
 
-        if (
-            typeof window.jspdf === "undefined"
-        ) {
-
-            alert(
-                "jsPDF no se cargó correctamente."
-            );
-
+        if (typeof window.jspdf === "undefined") {
+            alert("jsPDF no se cargó correctamente.");
             return;
         }
 
-        const { jsPDF } =
-            window.jspdf;
-
-        const pdf =
-            new jsPDF();
+        const { jsPDF } = window.jspdf;
+        const pdf = new jsPDF();
 
         pdf.setFontSize(18);
-
-        pdf.text(
-            "Calculadora ISR México",
-            20,
-            20
-        );
+        pdf.text("Calculadora ISR México", 20, 20);
 
         pdf.setFontSize(12);
+        pdf.text("Bruto: " + document.getElementById("bruto").textContent, 20, 40);
+        pdf.text("ISR: " + document.getElementById("isr").textContent, 20, 50);
+        pdf.text("Neto: " + document.getElementById("neto").textContent, 20, 60);
 
-        pdf.text(
-            "Bruto: " +
-            document.getElementById("bruto").textContent,
-            20,
-            40
-        );
-
-        pdf.text(
-            "ISR: " +
-            document.getElementById("isr").textContent,
-            20,
-            50
-        );
-
-        pdf.text(
-            "Neto: " +
-            document.getElementById("neto").textContent,
-            20,
-            60
-        );
-
-        pdf.save(
-            "ISR_Mexico.pdf"
-        );
-
+        pdf.save("ISR_Mexico.pdf");
     });
-
 }
